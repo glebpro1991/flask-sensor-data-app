@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 POSTGRES = {
     'user': 'srqqtgrpbtauoh',
-    'pw': 'ed84051e3ee744aed0024048731bcfc17b709b6f4d3c44609beb71587b19b75b',
+    'pw': 'b080181b42c55e240367b85a165d5684c9ce2171ea9c3f0c13e41698cbc8afe1',
     'db': 'd7etse1b52ls3r',
     'host': 'ec2-54-243-187-30.compute-1.amazonaws.com',
     'port': '5432',
