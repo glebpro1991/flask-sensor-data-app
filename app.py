@@ -1,9 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, request
 from models import db, SensorDataModel
 
 app = Flask(__name__)
-
-
 
 POSTGRES = {
     'user': 'srqqtgrpbtauoh',
@@ -16,16 +14,15 @@ POSTGRES = {
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
-
 db.init_app(app)
 
 
 @app.route('/', methods=['GET'])
-def present():
-    return "Hello darkness my old friend!"
+def home():
+    return "Successfully deployed"
 
 
-# first endpoint
+# Save endpoint
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
