@@ -28,8 +28,8 @@ def save():
     req_data = request.get_json()
     for record in req_data:
         sensor_data = SensorDataModel(record)
-        response = sensor_data.save()
-    return jsonify(response)
+        sensor_data.save()
+    return 'OK'
 
 
 if __name__ == '__main__':
