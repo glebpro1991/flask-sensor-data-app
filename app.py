@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, Response
 from models import db, SensorDataModel
 
 app = Flask(__name__)
@@ -29,7 +29,7 @@ def save():
     for record in req_data:
         sensor_data = SensorDataModel(record)
         sensor_data.save()
-    return [{"Status": "200"}]
+    return Response([{"Status": "200"}], status=200)
 
 
 if __name__ == '__main__':
