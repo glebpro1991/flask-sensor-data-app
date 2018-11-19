@@ -26,8 +26,9 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
-    sensor_data = SensorDataModel(req_data)
-    sensor_data.save()
+    for record in req_data:
+        sensor_data = SensorDataModel(record)
+        sensor_data.save()
     return 'OK'
 
 
