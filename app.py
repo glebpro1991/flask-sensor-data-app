@@ -29,7 +29,7 @@ def save():
     for record in req_data:
         sensor_data = SensorDataModel(record)
         sensor_data.save()
-    return 'OK'
+    return [{"Status": "OK"}]
 
 
 if __name__ == '__main__':
