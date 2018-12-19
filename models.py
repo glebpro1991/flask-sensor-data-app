@@ -41,7 +41,7 @@ class SensorDataModel(BaseModel):
 
     def __init__(self, data, *args):
         super().__init__(*args)
-        self.time = datetime.now()
+        self.time = datetime.datetime.now()
         self.accX = data.get('accX')
         self.accY = data.get('accY')
         self.accZ = data.get('accZ')
