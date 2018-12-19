@@ -28,7 +28,7 @@ class BaseModel(db.Model):
 class SensorDataModel(BaseModel):
     __tablename__ = 'data'
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.Long)
+    time = db.Column(db.Time)
     accX = db.Column(db.Float)
     accY = db.Column(db.Float)
     accZ = db.Column(db.Float)
