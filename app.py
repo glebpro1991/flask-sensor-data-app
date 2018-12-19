@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 db.init_app(app)
 
 
+# Home page just prints the message
 @app.route('/', methods=['GET'])
 def home():
     return "Successfully deployed"
@@ -27,10 +28,9 @@ def home():
 def save():
     req_data = request.get_json()
     for record in req_data:
-
         sensor_data = SensorDataModel(record)
         sensor_data.save()
-    return req_data
+    return [{"status": "ok"}]
 
 
 if __name__ == '__main__':
