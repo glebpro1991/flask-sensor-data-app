@@ -28,7 +28,6 @@ def home():
 def save():
     req_data = request.get_json()
     for record in req_data:
-        db.session.add(record)
         sensor_data = SensorDataModel(record)
         sensor_data.save()
     try:
