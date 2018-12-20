@@ -54,4 +54,3 @@ class SensorDataModel(BaseModel):
 
     def save(self):
         db.session.add(self)
-        db.session.commit()
