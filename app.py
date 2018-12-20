@@ -28,9 +28,16 @@ def home():
 def save():
     req_data = request.get_json()
     for record in req_data:
+        db.session.add(record)
         sensor_data = SensorDataModel(record)
         sensor_data.save()
-    return jsonify([{"status": "ok"}])
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+        return jsonify([{"status": "fail"}])
+    else:
+        return jsonify([{"status": "ok"}])
 
 
 if __name__ == '__main__':
