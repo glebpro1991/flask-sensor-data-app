@@ -53,6 +53,7 @@ class SensorDataModel(BaseModel):
         self.magX = data.get('magX')
         self.magY = data.get('magY')
         self.magZ = data.get('magZ')
+        self.valueId = data.get('valueId')
 
     def save(self):
         db.session.add(self)
