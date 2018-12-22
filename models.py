@@ -2,7 +2,6 @@ from flask_sqlalchemy import SQLAlchemy
 import datetime
 from alembic import op
 
-
 db = SQLAlchemy()
 
 
@@ -42,7 +41,7 @@ class SensorDataModel(BaseModel):
 
     def __init__(self, data, *args):
         super().__init__(*args)
-        self.time = datetime.datetime.fromtimestamp(data.get('time')/1e3)
+        self.time = datetime.datetime.fromtimestamp(data.get('time') / 1e3)
         self.valueId = data.get('valueId')
         self.accX = data.get('accX')
         self.accY = data.get('accY')
@@ -53,7 +52,6 @@ class SensorDataModel(BaseModel):
         self.magX = data.get('magX')
         self.magY = data.get('magY')
         self.magZ = data.get('magZ')
-        self.valueId = data.get('valueId')
 
     def save(self):
         db.session.add(self)
