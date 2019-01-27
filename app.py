@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, jsonify, Session
+from flask import Flask, request, jsonify
 from models import db, SensorDataModel
 
 app = Flask(__name__)
@@ -10,14 +10,6 @@ POSTGRES = {
     'host': 'ec2-54-243-187-30.compute-1.amazonaws.com',
     'port': '5432',
 }
-
-# POSTGRES = {
-#     'user': 'gleb',
-#     'pw': 'primary1',
-#     'db': 'sensordata',
-#     'host': 'localhost',
-#     'port': '5432',
-# }
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
@@ -37,10 +29,11 @@ def save():
     req_data = request.get_json()
 
     try:
-        db.transaction()
         for record in req_data:
             sensor_data = SensorDataModel(record)
             sensor_data.save()
+        # db.session.add_all()
+        db.session.flash()
         db.session.commit()
     except Exception as e:
         print("Exception type: " + str(e))
