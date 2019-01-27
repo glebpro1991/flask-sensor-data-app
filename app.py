@@ -34,7 +34,6 @@ def save():
     print(q.qsize())
 
     saveData(q.get())
-    q.join()
 
     if q.task_done():
         return jsonify([{"status": "ok"}])
@@ -59,6 +58,7 @@ def saveData(data):
         return True
     finally:
         db.session.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
