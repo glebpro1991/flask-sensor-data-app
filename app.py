@@ -28,6 +28,7 @@ def home():
 def save():
     req_data = request.get_json()
 
+    db.session.begin()
     try:
         db.session.add_all(
             [
