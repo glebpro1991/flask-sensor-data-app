@@ -43,6 +43,7 @@ def save():
 
 def saveData(data):
     try:
+        db.session.begin()
         db.session.add_all(
             [
                 SensorDataModel(record)
