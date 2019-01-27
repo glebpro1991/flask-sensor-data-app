@@ -3,7 +3,6 @@ from models import db, SensorDataModel
 
 app = Flask(__name__)
 
-
 POSTGRES = {
     'user': 'srqqtgrpbtauoh',
     'pw': 'b080181b42c55e240367b85a165d5684c9ce2171ea9c3f0c13e41698cbc8afe1',
@@ -42,6 +41,8 @@ def save():
     try:
         db.session.commit()
     except:
+        app.logger.info("app logger. something went wrong")
+        print("stdout. something went wrong")
         db.session.rollback()
         return jsonify([{"status": "fail"}])
     else:
