@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db, SensorDataModel
+import queue
 
 app = Flask(__name__)
 
@@ -16,6 +17,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 
 db.init_app(app)
 
+q = queue.Queue()
+
 
 # Home page just prints the message
 @app.route('/', methods=['GET'])
@@ -27,13 +30,17 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
+    # saveData(req_data)
+    q.put(req_data)
+    print(q.qsize())
 
+def saveData(data):
     db.session.begin()
     try:
         db.session.add_all(
             [
                 SensorDataModel(record)
-                for record in req_data
+                for record in data
             ]
         )
         db.session.flush()
