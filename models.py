@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 import datetime
 from alembic import op
 
-db = SQLAlchemy(session_options={'autocommit': True})
+db = SQLAlchemy()
 
 
 class BaseModel(db.Model):
@@ -51,6 +51,3 @@ class SensorDataModel(BaseModel):
         self.magX = data.get('magX')
         self.magY = data.get('magY')
         self.magZ = data.get('magZ')
-
-    def save(self):
-        db.session.add(self)

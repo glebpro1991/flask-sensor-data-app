@@ -30,12 +30,10 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
-    # saveData(req_data)
     q.put(req_data)
-    print(q.qsize())
+
 
 def saveData(data):
-    db.session.begin()
     try:
         db.session.add_all(
             [
@@ -43,7 +41,6 @@ def saveData(data):
                 for record in data
             ]
         )
-        db.session.flush()
         db.session.commit()
     except Exception as e:
         print("Exception type: " + str(e))
@@ -54,6 +51,9 @@ def saveData(data):
     finally:
         db.session.close()
 
+
+while not q.empty:
+    saveData(q.get())
 
 if __name__ == '__main__':
     app.run(debug=True)
