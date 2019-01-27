@@ -3,6 +3,7 @@ from models import db, SensorDataModel
 
 app = Flask(__name__)
 
+
 POSTGRES = {
     'user': 'srqqtgrpbtauoh',
     'pw': 'b080181b42c55e240367b85a165d5684c9ce2171ea9c3f0c13e41698cbc8afe1',
@@ -10,6 +11,14 @@ POSTGRES = {
     'host': 'ec2-54-243-187-30.compute-1.amazonaws.com',
     'port': '5432',
 }
+
+# POSTGRES = {
+#     'user': 'gleb',
+#     'pw': 'primary1',
+#     'db': 'sensordata',
+#     'host': 'localhost',
+#     'port': '5432',
+# }
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
