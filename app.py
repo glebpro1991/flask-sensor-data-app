@@ -31,10 +31,10 @@ def home():
 def save():
     req_data = request.get_json()
     q.put(req_data)
-
-    q.join()
+    print(q.qsize())
 
     saveData(q.get())
+    q.join()
 
     if q.task_done():
         return jsonify([{"status": "ok"}])
