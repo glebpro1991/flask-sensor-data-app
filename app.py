@@ -32,6 +32,11 @@ def save():
     req_data = request.get_json()
     q.put(req_data)
 
+    if q.task_done():
+        return jsonify([{"status": "ok"}])
+    else:
+        return jsonify([{"status": "fail"}])
+
 
 def saveData(data):
     try:
@@ -45,14 +50,14 @@ def saveData(data):
     except Exception as e:
         print("Exception type: " + str(e))
         db.session.rollback()
-        return jsonify([{"status": "fail"}])
+        return False
     else:
-        return jsonify([{"status": "ok"}])
+        return True
     finally:
         db.session.close()
 
 
-while not q.empty:
+while not q.empty():
     saveData(q.get())
 
 if __name__ == '__main__':
