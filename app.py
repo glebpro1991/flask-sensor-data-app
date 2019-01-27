@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, jsonify
+from flask import Flask, request, Response, jsonify, Session
 from models import db, SensorDataModel
 
 app = Flask(__name__)
@@ -35,18 +35,21 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
+    s = Session()
+    db.session.start()
     for record in req_data:
         sensor_data = SensorDataModel(record)
         sensor_data.save()
     try:
         db.session.commit()
-    except:
-        app.logger.info("app logger. something went wrong")
-        print("stdout. something went wrong")
+    except Exception as e:
+        print("Exception type: " + str(type(e)))
         db.session.rollback()
         return jsonify([{"status": "fail"}])
     else:
         return jsonify([{"status": "ok"}])
+    finally:
+        db.session.close()
 
 
 if __name__ == '__main__':

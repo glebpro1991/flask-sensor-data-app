@@ -26,7 +26,7 @@ class BaseModel(db.Model):
 
 class SensorDataModel(BaseModel):
     __tablename__ = 'data'
-    valueId = db.Column(db.Integer, primary_key=True)
+    sampleId = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.DateTime)
     accX = db.Column(db.Float)
     accY = db.Column(db.Float)
@@ -40,7 +40,7 @@ class SensorDataModel(BaseModel):
 
     def __init__(self, data, *args):
         super().__init__(*args)
-        self.valueId = data.get('sampleId')
+        self.sampleId = data.get('sampleId')
         self.time = datetime.datetime.fromtimestamp(data.get('time') / 1e3)
         self.accX = data.get('accX')
         self.accY = data.get('accY')
