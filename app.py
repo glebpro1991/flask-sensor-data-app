@@ -37,7 +37,7 @@ def save():
     req_data = request.get_json()
 
     try:
-        db.atomic()
+        db.session.atomic()
         for record in req_data:
             sensor_data = SensorDataModel(record)
             sensor_data.save()
