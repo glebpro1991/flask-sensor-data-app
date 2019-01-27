@@ -33,7 +33,7 @@ def save():
             sensor_data = SensorDataModel(record)
             sensor_data.save()
         # db.session.add_all()
-        db.session.flash()
+        db.session.flush()
         db.session.commit()
     except Exception as e:
         print("Exception type: " + str(e))
