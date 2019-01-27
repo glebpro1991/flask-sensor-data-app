@@ -59,6 +59,7 @@ def saveData(data):
 
 while not q.empty():
     saveData(q.get())
+    q.join()
 
 if __name__ == '__main__':
     app.run(debug=True)
