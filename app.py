@@ -41,7 +41,7 @@ def save():
     try:
         db.session.commit()
     except Exception as e:
-        print("Exception type: " + str(type(e)))
+        print("Exception type: " + str(e))
         db.session.rollback()
         return jsonify([{"status": "fail"}])
     else:
