@@ -38,7 +38,6 @@ def save():
 
     db.session.begin()
     try:
-        db.transaction()
         for record in req_data:
             sensor_data = SensorDataModel(record)
             sensor_data.save()
