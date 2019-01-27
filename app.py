@@ -29,10 +29,12 @@ def save():
     req_data = request.get_json()
 
     try:
-        for record in req_data:
-            sensor_data = SensorDataModel(record)
-            sensor_data.save()
-        # db.session.add_all()
+        db.session.add_all(
+            [
+                SensorDataModel(record)
+                for record in req_data
+            ]
+        )
         db.session.flush()
         db.session.commit()
     except Exception as e:

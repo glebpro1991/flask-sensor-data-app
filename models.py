@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 import datetime
 from alembic import op
 
-db = SQLAlchemy()
+db = SQLAlchemy(session_options={'autocommit': True})
 
 
 class BaseModel(db.Model):
