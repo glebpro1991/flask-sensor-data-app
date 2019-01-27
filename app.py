@@ -32,6 +32,10 @@ def save():
     req_data = request.get_json()
     q.put(req_data)
 
+    q.join()
+
+    saveData(q.get())
+
     if q.task_done():
         return jsonify([{"status": "ok"}])
     else:
@@ -55,11 +59,6 @@ def saveData(data):
         return True
     finally:
         db.session.close()
-
-
-while not q.empty():
-    saveData(q.get())
-    q.join()
 
 if __name__ == '__main__':
     app.run(debug=True)
