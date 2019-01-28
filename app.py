@@ -43,9 +43,9 @@ def isValidBatch(data):
         batchId = item['batchId']
 
         if len(index) == 1:
-            expectedId = batchId + '0' + index
+            expectedId = str(batchId) + '0' + index
         else:
-            expectedId = batchId + index
+            expectedId = str(batchId) + index
 
         if int(receivedId) != int(expectedId):
             raise Exception('Inconsistencies in sample IDs: ' + str(receivedId) + ' ' + str(expectedId))
