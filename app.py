@@ -33,20 +33,21 @@ def save():
 
 
 def isValidBatch(data):
-    for key in data:
-        item = data[key]
-        if len(item) != 100:
-            raise Exception('Batch does not contain 100 records. It only contains ' + len(item) + ' elements')
-        for i, item in enumerate(item):
-            index = str(i)
-            id1 = item['sampleId']
-            if len(index) == 1:
-                id2 = str(key) + '0' + index
-            else:
-                id2 = str(key) + index
+    if len(data) != 100:
+        raise Exception('Batch does not contain 100 records. It only contains ' + len(data) + ' elements')
 
-            if int(id1) != int(id2):
-                raise Exception('Inconsistencies in sample IDs: ' + str(id1) + ' ' + str(id2))
+    for i, item in enumerate(data):
+        index = str(i)
+        receivedId = item['sampleId']
+        batchId = item['batchId']
+
+        if len(index) == 1:
+            expectedId = batchId + '0' + index
+        else:
+            expectedId = batchId + index
+
+        if int(receivedId) != int(expectedId):
+            raise Exception('Inconsistencies in sample IDs: ' + str(receivedId) + ' ' + str(expectedId))
     print("Samples are consistent with the batch. No inconsistencies found")
 
 
