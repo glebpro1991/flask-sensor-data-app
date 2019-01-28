@@ -30,9 +30,13 @@ def save():
     req_data = request.get_json()
     isValidBatch(req_data)
     startTime = time.time()
-    saveData(req_data)
+    isOk = saveData(req_data)
     print(time.time() - startTime)
-    return jsonify([{"status": "ok"}])
+
+    if isOk:
+        return jsonify([{"status": "ok"}])
+    else:
+        return jsonify([{"status": "fail"}])
 
 
 def isValidBatch(data):
@@ -43,7 +47,6 @@ def isValidBatch(data):
         index = str(i)
         receivedId = item['sampleId']
         batchId = item['batchId']
-        print(batchId)
 
         if len(index) == 1:
             expectedId = str(batchId) + '0' + index
@@ -57,7 +60,6 @@ def isValidBatch(data):
 
 def saveData(data):
     try:
-        db.session.begin()
         db.session.add_all(
             [
                 SensorDataModel(record)
