@@ -28,6 +28,7 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
+    print(req_data)
     isValidBatch(req_data)
     return jsonify([{"status": "ok"}])
 
