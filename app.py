@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db, SensorDataModel
-import queue, pprint
+import json
 
 app = Flask(__name__)
 
@@ -17,8 +17,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
 
 db.init_app(app)
 
-q = queue.Queue()
-
 
 # Home page just prints the message
 @app.route('/', methods=['GET'])
@@ -30,15 +28,28 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
-    pprint.pprint(req_data)
-    q.put(req_data)
+    json_string = req_data.read()
+    data = json.loads(json_string)
+    isValidBatch(data)
+    return jsonify([{"status": "ok"}])
 
-    saveData(q.get())
 
-    if q.task_done():
-        return jsonify([{"status": "ok"}])
-    else:
-        return jsonify([{"status": "fail"}])
+def isValidBatch(data):
+    for key in data:
+        item = data[key]
+        if len(item) != 100:
+            raise Exception('Batch does not contain 100 records. It only contains ' + len(item) + ' elements')
+        for i, item in enumerate(item):
+            index = str(i)
+            id1 = item['sampleId']
+            if len(index) == 1:
+                id2 = str(key) + '0' + index
+            else:
+                id2 = str(key) + index
+
+            if int(id1) != int(id2):
+                raise Exception('Inconsistencies in sample IDs: ' + str(id1) + ' ' + str(id2))
+    print("Samples are consistent with the batch. No inconsistencies found")
 
 
 def saveData(data):
