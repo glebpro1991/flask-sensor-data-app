@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db, SensorDataModel
-import json
+import time
 
 app = Flask(__name__)
 
@@ -28,8 +28,10 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
-    print(req_data)
     isValidBatch(req_data)
+    startTime = time.time()
+    saveData(req_data)
+    print(time.time() - startTime)
     return jsonify([{"status": "ok"}])
 
 
