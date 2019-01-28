@@ -43,6 +43,7 @@ def isValidBatch(data):
         index = str(i)
         receivedId = item['sampleId']
         batchId = item['batchId']
+        print(batchId)
 
         if len(index) == 1:
             expectedId = str(batchId) + '0' + index
