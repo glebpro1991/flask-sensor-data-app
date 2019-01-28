@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db, SensorDataModel
-import queue
+import queue, pprint
 
 app = Flask(__name__)
 
@@ -30,8 +30,8 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
+    pprint(req_data)
     q.put(req_data)
-    print(q.qsize())
 
     saveData(q.get())
 
