@@ -30,7 +30,7 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
-    pprint(req_data)
+    pprint.pprint(req_data)
     q.put(req_data)
 
     saveData(q.get())
