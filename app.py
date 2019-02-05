@@ -4,11 +4,12 @@ import time
 
 app = Flask(__name__)
 
+# Local
 POSTGRES = {
-    'user': 'srqqtgrpbtauoh',
-    'pw': 'b080181b42c55e240367b85a165d5684c9ce2171ea9c3f0c13e41698cbc8afe1',
-    'db': 'd7etse1b52ls3r',
-    'host': 'ec2-54-243-187-30.compute-1.amazonaws.com',
+    'user': 'gleb',
+    'pw': 'primary1',
+    'db': 'sensordata',
+    'host': 'localhost',
     'port': '5432',
 }
 
@@ -54,7 +55,8 @@ def isValidBatch(data):
             expectedId = str(batchId) + index
 
         if int(receivedId) != int(expectedId):
-            raise Exception('Inconsistencies in sample IDs: ' + str(receivedId) + ' ' + str(expectedId))
+            message = 'Inconsistencies in sample IDs: ' + str(receivedId) + ' ' + str(expectedId)
+            raise Exception(message)
     print("Samples are consistent with the batch. No inconsistencies found")
 
 
@@ -67,12 +69,11 @@ def saveData(data):
             ]
         )
         db.session.commit()
+        return True
     except Exception as e:
         print("Exception type: " + str(e))
         db.session.rollback()
         return False
-    else:
-        return True
     finally:
         db.session.close()
 
