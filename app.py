@@ -29,35 +29,8 @@ def home():
 @app.route('/save', methods=['POST'])
 def save():
     req_data = request.get_json()
-    isValidBatch(req_data)
-    startTime = time.time()
-    isOk = saveData(req_data)
-    print(time.time() - startTime)
-
-    if isOk:
-        return jsonify([{"status": "ok"}])
-    else:
-        return jsonify([{"status": "fail"}])
-
-
-def isValidBatch(data):
-    if len(data) != 100:
-        raise Exception('Batch does not contain 100 records. It only contains ' + len(data) + ' elements')
-
-    for i, item in enumerate(data):
-        index = str(i)
-        receivedId = item['sampleId']
-        batchId = item['batchId']
-
-        if len(index) == 1:
-            expectedId = str(batchId) + '0' + index
-        else:
-            expectedId = str(batchId) + index
-
-        if int(receivedId) != int(expectedId):
-            message = 'Inconsistencies in sample IDs: ' + str(receivedId) + ' ' + str(expectedId)
-            raise Exception(message)
-    print("Samples are consistent with the batch. No inconsistencies found")
+    message = saveData(req_data)
+    return jsonify([{"response": message}])
 
 
 def saveData(data):
@@ -69,11 +42,10 @@ def saveData(data):
             ]
         )
         db.session.commit()
-        return True
+        return "success"
     except Exception as e:
-        print("Exception type: " + str(e))
         db.session.rollback()
-        return False
+        return str(e)
     finally:
         db.session.close()
 
